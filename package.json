@@ -25,5 +25,17 @@
       "type": "Apache-2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0"
     }
-  ]
+  ],
+  "description": "[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)   <a href=\"https://github.com/apache/age/blob/master/LICENSE\">     <img src=\"https://img.shields.io/github/license/apache/age-viewer\"/>   <a href=\"https://github.com/apache/age/stargazers\">     <img src=\"https://img.shields.io/github/stars/apache/age-viewer\"/> </p>",
+  "main": "ecosystem.config.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nyakamba/age-viewer.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/Nyakamba/age-viewer/issues"
+  },
+  "homepage": "https://github.com/Nyakamba/age-viewer#readme"
 }
