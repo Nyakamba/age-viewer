@@ -17,21 +17,25 @@
  * under the License.
  */
 
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 
-import { Modal } from 'antd';
-import uuid from 'react-uuid';
-import { connect, useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Modal } from "antd";
+import uuid from "react-uuid";
+import { connect, useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo, faTimes } from "@fortawesome/free-solid-svg-icons";
 import {
-  VerticalLine, HorizontalLine, SubLabelLeft, SubLabelRight, GraphSelectDropdown,
-} from './SidebarComponents';
+  VerticalLine,
+  HorizontalLine,
+  SubLabelLeft,
+  SubLabelRight,
+  GraphSelectDropdown,
+} from "./SidebarComponents";
 
 const genLabelQuery = (eleType, labelName, database) => {
-  if (eleType === 'node') {
-    if (labelName === '*') {
+  if (eleType === "node") {
+    if (labelName === "*") {
       return `SELECT * from cypher('${database.graph}', $$
         MATCH (V)
         RETURN V
@@ -42,8 +46,8 @@ $$) as (V agtype);`;
         RETURN V
 $$) as (V agtype);`;
   }
-  if (eleType === 'edge') {
-    if (labelName === '*') {
+  if (eleType === "edge") {
+    if (labelName === "*") {
       return `SELECT * from cypher('${database.graph}', $$
         MATCH (V)-[R]-(V2)
         RETURN V,R,V2
@@ -55,17 +59,17 @@ $$) as (V agtype, R agtype, V2 agtype);`;
 $$) as (V agtype, R agtype, V2 agtype);`;
   }
 
-  return '';
+  return "";
 };
 
 const genPropQuery = (eleType, propertyName) => {
-  if (eleType === 'v') {
+  if (eleType === "v") {
     return `MATCH (V) WHERE V.${propertyName} IS NOT NULL RETURN V`;
   }
-  if (eleType === 'e') {
+  if (eleType === "e") {
     return `MATCH (V)-[R]->(V2) WHERE R.${propertyName} IS NOT NULL RETURN *`;
   }
-  return '';
+  return "";
 };
 
 const NodeList = ({ nodes, setCommand }) => {
@@ -80,13 +84,14 @@ const NodeList = ({ nodes, setCommand }) => {
       />
     ));
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          height: "80px",
+          overflowY: "auto",
+          marginTop: "12px",
+        }}
       >
         {list}
       </div>
@@ -96,31 +101,29 @@ const NodeList = ({ nodes, setCommand }) => {
   return null;
 };
 NodeList.propTypes = {
-  nodes: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
 };
 
-const NodeItems = connect((state) => ({
-  database: state.database,
-}), {})(
-  ({
-    label, cnt, setCommand, database,
-  }) => (
-    <button
-      type="button"
-      className="node-item"
-      onClick={() => setCommand(genLabelQuery('node', label, database))}
-    >
-      {label}
-      (
-      {cnt}
-      )
-    </button>
-  ),
-);
+const NodeItems = connect(
+  (state) => ({
+    database: state.database,
+  }),
+  {}
+)(({ label, cnt, setCommand, database }) => (
+  <button
+    type="button"
+    className="node-item"
+    onClick={() => setCommand(genLabelQuery("node", label, database))}
+  >
+    {label}({cnt})
+  </button>
+));
 NodeItems.propTypes = {
   database: PropTypes.shape({
     graph: PropTypes.string,
@@ -142,13 +145,14 @@ const EdgeList = ({ edges, setCommand }) => {
       />
     ));
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          height: "80px",
+          overflowY: "auto",
+          marginTop: "12px",
+        }}
       >
         {list}
       </div>
@@ -158,27 +162,27 @@ const EdgeList = ({ edges, setCommand }) => {
   return null;
 };
 EdgeList.propTypes = {
-  edges: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
+  edges: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
 };
 
-const EdgeItems = connect((state) => ({
-  database: state.database,
-}), {})(({
-  label, cnt, setCommand, database,
-}) => (
+const EdgeItems = connect(
+  (state) => ({
+    database: state.database,
+  }),
+  {}
+)(({ label, cnt, setCommand, database }) => (
   <button
     type="button"
     className="edge-item"
-    onClick={() => setCommand(genLabelQuery('edge', label, database))}
+    onClick={() => setCommand(genLabelQuery("edge", label, database))}
   >
-    {label}
-    (
-    {cnt}
-    )
+    {label}({cnt})
   </button>
 ));
 EdgeItems.propTypes = {
@@ -202,13 +206,14 @@ const PropertyList = ({ propertyKeys, setCommand }) => {
       />
     ));
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          height: "80px",
+          overflowY: "auto",
+          marginTop: "12px",
+        }}
       >
         {list}
       </div>
@@ -218,17 +223,21 @@ const PropertyList = ({ propertyKeys, setCommand }) => {
   return null;
 };
 PropertyList.propTypes = {
-  propertyKeys: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    key_type: PropTypes.string,
-  })).isRequired,
+  propertyKeys: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      key_type: PropTypes.string,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
 };
 
 const PropertyItems = ({ propertyName, keyType, setCommand }) => (
   <button
     type="button"
-    className={`${keyType === 'v' ? 'propertie-item' : 'propertie-item'} propertie-item`}
+    className={`${
+      keyType === "v" ? "propertie-item" : "propertie-item"
+    } propertie-item`}
     onClick={() => setCommand(genPropQuery(keyType, propertyName))}
   >
     {propertyName}
@@ -259,13 +268,14 @@ const GraphList = ({
       />
     ));
     return (
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        height: '80px',
-        overflowY: 'auto',
-        marginTop: '12px',
-      }}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          height: "80px",
+          overflowY: "auto",
+          marginTop: "12px",
+        }}
       >
         {list}
       </div>
@@ -290,8 +300,13 @@ const GraphItems = ({
 }) => (
   <button
     type="button"
-    className={`${graph === currentGraph ? 'graph-item-clicked' : 'graph-item'}`}
-    onClick={() => { changeCurrentGraph({ id: gid }); changeGraph({ graphName: graph }); }}
+    className={`${
+      graph === currentGraph ? "graph-item-clicked" : "graph-item"
+    }`}
+    onClick={() => {
+      changeCurrentGraph({ id: gid });
+      changeGraph({ graphName: graph });
+    }}
   >
     {graph}
   </button>
@@ -307,11 +322,11 @@ GraphItems.propTypes = {
 const ConnectedText = ({ userName, roleName }) => (
   <div>
     <h6>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <SubLabelRight label="Username :" classes="col-sm-6" />
         <SubLabelLeft label={userName} classes="col-sm-6" />
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <SubLabelRight label="Roles :" classes="col-sm-6" />
         <SubLabelLeft label={roleName} classes="col-sm-6" />
       </div>
@@ -326,19 +341,19 @@ ConnectedText.propTypes = {
 const DBMSText = ({ dbname, graph }) => (
   <div>
     <h6>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <SubLabelRight label="Databases :" classes="col-sm-6" />
         <SubLabelLeft label={dbname} classes="col-sm-6" />
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <SubLabelRight label="Graph Path :" classes="col-sm-6" />
         <SubLabelLeft label={graph} classes="col-sm-6" />
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <SubLabelRight label="Information :" classes="col-sm-6" />
         <SubLabelLeft label="-" classes="col-sm-6" />
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <SubLabelRight label="Query List :" classes="col-sm-6" />
         <SubLabelLeft label="-" classes="col-sm-6" />
       </div>
@@ -374,8 +389,8 @@ const SidebarHome = ({
 
   const requestDisconnect = () => {
     const refKey = uuid();
-    dispatch(() => trimFrame('ServerDisconnect'));
-    dispatch(() => addFrame(command, 'ServerDisconnect', refKey));
+    dispatch(() => trimFrame("ServerDisconnect"));
+    dispatch(() => addFrame(command, "ServerDisconnect", refKey));
   };
 
   const refreshSidebarHome = () => {
@@ -405,7 +420,7 @@ const SidebarHome = ({
         <div id="lastHorizontalLine">
           <VerticalLine />
         </div>
-        { isLabel && (
+        {isLabel && (
           <>
             <div className="form-group sidebar-item">
               <b>Graphs</b>
@@ -421,7 +436,7 @@ const SidebarHome = ({
               <VerticalLine />
             </div>
           </>
-        ) }
+        )}
       </div>
       <div className="sidebar-item-disconnect-outer">
         <div className="form-group sidebar-item-disconnect">
@@ -447,26 +462,24 @@ const SidebarHome = ({
               className="frame-head-button close_session btn btn-link"
               type="button"
               color="#142B80"
-              onClick={() => confirm({
-                title: 'Are you sure you want to close this window?',
-                onOk() {
-                  requestDisconnect();
-                },
-                onCancel() {
-                  return false;
-                },
-              })}
+              onClick={() =>
+                confirm({
+                  title: "Are you sure you want to close this window?",
+                  onOk() {
+                    requestDisconnect();
+                  },
+                  onCancel() {
+                    return false;
+                  },
+                })
+              }
             >
-              <FontAwesomeIcon
-                icon={faTimes}
-                size="1x"
-                color="white"
-              />
+              <FontAwesomeIcon icon={faTimes} size="1x" color="white" />
             </button>
             <br />
             <b>Close Session</b>
           </div>
-          { !isLabel && (
+          {!isLabel && (
             <>
               <HorizontalLine />
               <div className="sidebar-item-disconnect-buttons">
@@ -478,7 +491,7 @@ const SidebarHome = ({
                 />
               </div>
             </>
-          ) }
+          )}
         </div>
       </div>
     </div>
@@ -486,18 +499,24 @@ const SidebarHome = ({
 };
 
 SidebarHome.propTypes = {
-  edges: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    cnt: PropTypes.number,
-  })).isRequired,
-  propertyKeys: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    key_type: PropTypes.string,
-  })).isRequired,
+  edges: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      cnt: PropTypes.number,
+    })
+  ).isRequired,
+  propertyKeys: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      key_type: PropTypes.string,
+    })
+  ).isRequired,
   setCommand: PropTypes.func.isRequired,
   command: PropTypes.string.isRequired,
   trimFrame: PropTypes.func.isRequired,

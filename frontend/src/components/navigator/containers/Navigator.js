@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { connect } from 'react-redux';
-import { toggleMenu } from '../../../features/menu/MenuSlice';
-import Navigator from '../presentations/Navigator';
+import { connect } from "react-redux";
+import { toggleMenu } from "../../../features/menu/MenuSlice";
+import Navigator from "../presentations/Navigator";
 
 const mapStateToProps = (state) => ({
   activeMenuName: state.navigator.activeMenu,
