@@ -18,14 +18,17 @@
  */
 
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
-import { faCog, faHome } from '@fortawesome/free-solid-svg-icons';
+import { createSlice } from "@reduxjs/toolkit";
+import { faCog, faHome } from "@fortawesome/free-solid-svg-icons";
 
 const MenuSlice = createSlice({
-  name: 'navigator',
+  name: "navigator",
   initialState: {
-    menuList: [['home', faHome], ['setting', faCog]],
-    activeMenu: 'home',
+    menuList: [
+      ["home", faHome],
+      ["setting", faCog],
+    ],
+    activeMenu: "home",
     isActive: true,
   },
   reducers: {
@@ -33,7 +36,7 @@ const MenuSlice = createSlice({
       reducer: (state, action) => {
         let isActive = true;
         if (state.activeMenu === action.payload.selectedMenuName) {
-          action.payload.selectedMenuName = '';
+          action.payload.selectedMenuName = "";
           isActive = false;
         }
         state.activeMenu = action.payload.selectedMenuName;

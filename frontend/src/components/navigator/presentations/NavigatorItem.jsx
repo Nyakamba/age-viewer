@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NavigatorItem = ({ itemInfo, activeMenuName, onClick }) => {
   const [menuName, fwCode] = itemInfo;
@@ -27,7 +27,9 @@ const NavigatorItem = ({ itemInfo, activeMenuName, onClick }) => {
     <li className="nav-item">
       <a
         id={`side-${menuName}-tab`}
-        className={`nav-link${activeMenuName === menuName ? ' active show ' : ''}`}
+        className={`nav-link${
+          activeMenuName === menuName ? " active show " : ""
+        }`}
         data-classname="fixed-left"
         data-toggle="pill"
         href="/#"
